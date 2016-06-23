@@ -39,10 +39,25 @@ public class MasterAuthentication extends javax.swing.JFrame {
         jLabel1.setText("PUNJAB CRIMINAL DATABASE");
 
         addCriminal.setText("Add Criminal");
+        addCriminal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCriminalActionPerformed(evt);
+            }
+        });
 
         searchCriminal.setText("Search Criminal");
+        searchCriminal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCriminalActionPerformed(evt);
+            }
+        });
 
         backToAuthentication.setText("Back to Authentication Page");
+        backToAuthentication.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToAuthenticationActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,6 +93,24 @@ public class MasterAuthentication extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backToAuthenticationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToAuthenticationActionPerformed
+
+        this.setVisible(false);
+        new AuthenticationPortal().setVisible(true);
+    }//GEN-LAST:event_backToAuthenticationActionPerformed
+
+    private void addCriminalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCriminalActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new addCriminal().setVisible(true);
+    }//GEN-LAST:event_addCriminalActionPerformed
+
+    private void searchCriminalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCriminalActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new UserAndMasterSearch().setVisible(true);
+    }//GEN-LAST:event_searchCriminalActionPerformed
 
     /**
      * @param args the command line arguments

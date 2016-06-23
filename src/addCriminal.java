@@ -5,6 +5,8 @@
  */
 package criminaldatabase;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author dilawardhaliwal
@@ -68,6 +70,11 @@ public class addCriminal extends javax.swing.JFrame {
         jLabel7.setText("Crime Year");
 
         addRecord.setText("Add Record");
+        addRecord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addRecordActionPerformed(evt);
+            }
+        });
 
         backToPrevious.setText("Back to Previous Page");
         backToPrevious.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +163,35 @@ public class addCriminal extends javax.swing.JFrame {
 
     private void backToPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToPreviousActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        new MasterAuthentication().setVisible(true);
     }//GEN-LAST:event_backToPreviousActionPerformed
+
+    private void addRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRecordActionPerformed
+        // TODO add your handling code here:
+        String name,fatherName,age,city,crimeType,crimeYear;
+        name=addNameInput.getText();
+        fatherName=addFatherNameInput.getText();
+        age=addAgeInput.getText();
+        city=addCityInput.getText();
+        crimeType=addCrimeTypeInput.getText();
+        crimeYear=addCrimeYearInput.getText();
+        if(!"".equals(name)&&!"".equals(fatherName)&&!"".equals(age)&&!"".equals(city)&&!"".equals(crimeType)&&!"".equals(crimeYear))
+        {
+            if(!CriminalDatabase.addRecord(name, fatherName, age, city, crimeType, crimeYear))
+            {
+                JOptionPane.showMessageDialog(rootPane, "Adding Record to database failed");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "Record Added successfully");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Please fill complete details");
+        }
+    }//GEN-LAST:event_addRecordActionPerformed
 
     /**
      * @param args the command line arguments

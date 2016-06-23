@@ -5,17 +5,24 @@
  */
 package criminaldatabase;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author dilawardhaliwal
  */
 public class AuthenticationPortal extends javax.swing.JFrame {
-
     /**
      * Creates new form AuthenticationPortal
      */
     public AuthenticationPortal() {
         initComponents();
+        if(!CriminalDatabase.connectDatabse())
+        {
+            JOptionPane.showMessageDialog(rootPane, "Database connection failed! Please check your Connection");
+            System.exit(0);
+        }
+        CriminalDatabase.createCriminalTable();
     }
 
     /**
@@ -30,7 +37,7 @@ public class AuthenticationPortal extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         masterLogin = new javax.swing.JRadioButton();
-        userLogin = new javax.swing.JRadioButton();
+        simpleUserLogin = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         loginInput = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -46,11 +53,11 @@ public class AuthenticationPortal extends javax.swing.JFrame {
         buttonGroup1.add(masterLogin);
         masterLogin.setText("Master Login");
 
-        buttonGroup1.add(userLogin);
-        userLogin.setText("User Login");
-        userLogin.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(simpleUserLogin);
+        simpleUserLogin.setText("Simple User Login");
+        simpleUserLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userLoginActionPerformed(evt);
+                simpleUserLoginActionPerformed(evt);
             }
         });
 
@@ -59,6 +66,11 @@ public class AuthenticationPortal extends javax.swing.JFrame {
         jLabel3.setText("Password -");
 
         LogIn.setText("Log In");
+        LogIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogInActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,8 +84,8 @@ public class AuthenticationPortal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addComponent(masterLogin)
-                        .addGap(54, 54, 54)
-                        .addComponent(userLogin))
+                        .addGap(27, 27, 27)
+                        .addComponent(simpleUserLogin))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,7 +98,7 @@ public class AuthenticationPortal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(passInput, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                             .addComponent(loginInput))))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(LogIn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -100,7 +112,7 @@ public class AuthenticationPortal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(masterLogin)
-                    .addComponent(userLogin))
+                    .addComponent(simpleUserLogin))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -117,9 +129,44 @@ public class AuthenticationPortal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void userLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginActionPerformed
+    private void simpleUserLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpleUserLoginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userLoginActionPerformed
+    }//GEN-LAST:event_simpleUserLoginActionPerformed
+
+    private void LogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogInActionPerformed
+        // TODO add your handling code here:
+        String loginId,pass;
+        loginId=loginInput.getText();
+        pass=passInput.getText();
+        if(simpleUserLogin.isSelected())
+        {
+            if(CriminalDatabase.checkSimpleLogin(loginId, pass))
+            {
+                this.setVisible(false);
+                new UserAndMasterSearch().setVisible(true);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane,"Invalid Login Or Password");
+            }
+        }
+        else if(masterLogin.isSelected())
+        {   
+            if(CriminalDatabase.checkMasterLogin(loginId, pass))
+            {
+                this.setVisible(false);
+                new MasterAuthentication().setVisible(true);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane,"Invalid Login Or Password");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Please Select either Master or Simple user login");
+        }
+    }//GEN-LAST:event_LogInActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,6 +212,6 @@ public class AuthenticationPortal extends javax.swing.JFrame {
     private javax.swing.JTextField loginInput;
     private javax.swing.JRadioButton masterLogin;
     private javax.swing.JPasswordField passInput;
-    private javax.swing.JRadioButton userLogin;
+    private javax.swing.JRadioButton simpleUserLogin;
     // End of variables declaration//GEN-END:variables
 }

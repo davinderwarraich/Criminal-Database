@@ -5,6 +5,8 @@
  */
 package criminaldatabase;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author dilawardhaliwal
@@ -28,36 +30,16 @@ public class SearchDisplay extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        displayTable = new javax.swing.JTable();
+        backToSearchPage = new javax.swing.JButton();
+        printTable = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        displayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Name", "Father's Name", "Age", "City", "Crime Type", "Crime Year"
@@ -78,30 +60,82 @@ public class SearchDisplay extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        jScrollPane1.setViewportView(displayTable);
+        if (displayTable.getColumnModel().getColumnCount() > 0) {
+            displayTable.getColumnModel().getColumn(0).setResizable(false);
+            displayTable.getColumnModel().getColumn(1).setResizable(false);
+            displayTable.getColumnModel().getColumn(2).setResizable(false);
+            displayTable.getColumnModel().getColumn(3).setResizable(false);
+            displayTable.getColumnModel().getColumn(4).setResizable(false);
+            displayTable.getColumnModel().getColumn(5).setResizable(false);
         }
+
+        backToSearchPage.setText("Back to Search Page");
+        backToSearchPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToSearchPageActionPerformed(evt);
+            }
+        });
+
+        printTable.setText("Print Table");
+        printTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printTableActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(backToSearchPage, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(printTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(backToSearchPage, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(printTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backToSearchPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToSearchPageActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new UserAndMasterSearch().setVisible(true);
+    }//GEN-LAST:event_backToSearchPageActionPerformed
+
+    private void printTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printTableActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+            if(!displayTable.print())
+            {
+                System.out.println("Error printing");
+            }
+           
+        }
+        catch (java.awt.print.PrinterException e) 
+        {
+            System.out.println("Cannot print %s%n"+e.getMessage());
+        }
+    }//GEN-LAST:event_printTableActionPerformed
+
+    public void insertContent(String name,String fatherName,String age,String city,String crimeType,String crimeYear)
+    {
+        DefaultTableModel model=(DefaultTableModel) displayTable.getModel();
+        model.addRow(new Object[] {name,fatherName,age,city,crimeType,crimeYear});
+        this.pack();
+    }
     /**
      * @param args the command line arguments
      */
@@ -138,7 +172,9 @@ public class SearchDisplay extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backToSearchPage;
+    private javax.swing.JTable displayTable;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton printTable;
     // End of variables declaration//GEN-END:variables
 }
